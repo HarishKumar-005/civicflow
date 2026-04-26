@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Loader2, Send, MapPin } from "lucide-react";
+import { ArrowLeft, Loader2, Send, MapPin, Sparkles, Upload } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import type { ReportCategory, SourceType } from "@/lib/types/database";
@@ -34,8 +34,44 @@ export default function NewReportPage() {
     const router = useRouter();
     const supabase = createClient();
 
+    const [aiLoading, setAiLoading] = useState(false);
+
     function updateField(field: string, value: string | number) {
         setForm((prev) => ({ ...prev, [field]: value }));
+    }
+
+    async function handleAIExtract() {
+        if (!form.raw_text.trim()) {
+            toast.error("Please enter raw field notes first");
+            return;
+        }
+        setAiLoading(true);
+        try {
+            const res = await fetch("/api/ai/extract", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ rawText: form.raw_text })
+            });
+            const json = await res.json();
+
+            if (!res.ok) throw new Error(json.error || "AI Extraction failed");
+
+            const data = json.data;
+            if (data) {
+                if (data.title) updateField("title", data.title);
+                if (data.description) updateField("description", data.description);
+                if (data.category && CATEGORY_LABELS[data.category as ReportCategory]) updateField("category", data.category);
+                if (data.severity) updateField("severity", data.severity);
+                if (data.urgency) updateField("urgency", data.urgency);
+                if (data.affectedCount) updateField("affected_count", data.affectedCount);
+                if (data.location) updateField("address", data.location);
+                toast.success("AI successfully extracted and filled fields");
+            }
+        } catch (err: any) {
+            toast.error(err.message);
+        } finally {
+            setAiLoading(false);
+        }
     }
 
     async function handleGetLocation() {
@@ -159,7 +195,20 @@ export default function NewReportPage() {
 
                         {/* Raw Text (optional) */}
                         <div className="space-y-2">
-                            <Label htmlFor="raw_text">Raw Field Notes (optional)</Label>
+                            <div className="flex items-center justify-between">
+                                <Label htmlFor="raw_text">Raw Field Notes (optional)</Label>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={handleAIExtract}
+                                    disabled={aiLoading || !form.raw_text.trim()}
+                                    className="h-7 text-xs bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 border-indigo-500/20 cursor-pointer"
+                                >
+                                    {aiLoading ? <Loader2 className="h-3 w-3 mr-1 animate-spin" /> : <Sparkles className="h-3 w-3 mr-1" />}
+                                    AI Assist
+                                </Button>
+                            </div>
                             <Textarea
                                 id="raw_text"
                                 placeholder="Paste raw notes, survey text, or field observations..."
@@ -186,6 +235,14 @@ export default function NewReportPage() {
                                         <SelectItem value="field_note" className="cursor-pointer">Field Note</SelectItem>
                                     </SelectContent>
                                 </Select>
+                                {form.source_type === "upload" && (
+                                    <div className="mt-2 border-2 border-dashed border-border/50 rounded-lg p-6 text-center hover:bg-accent/30 transition-colors">
+                                        <Upload className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
+                                        <Label htmlFor="file_upload" className="text-sm cursor-pointer text-primary">Click to upload files</Label>
+                                        <Input id="file_upload" type="file" multiple className="hidden" />
+                                        <p className="text-xs text-muted-foreground mt-1">Images or documents</p>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Category */}
