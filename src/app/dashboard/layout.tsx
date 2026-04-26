@@ -84,16 +84,16 @@ export default function DashboardLayout({
     }
 
     return (
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex h-screen overflow-hidden bg-background">
             {/* Sidebar */}
-            <aside className="hidden md:flex flex-col w-64 border-r border-border/50 bg-card/30 backdrop-blur-sm">
+            <aside className="hidden md:flex flex-col w-64 border-r border-border bg-card">
                 {/* Logo */}
-                <div className="p-4 border-b border-border/50">
+                <div className="p-4 border-b border-border">
                     <Link href="/dashboard" className="flex items-center gap-2.5 group">
-                        <div className="p-1.5 rounded-lg bg-primary/10 border border-primary/20 group-hover:bg-primary/20 transition-colors">
-                            <Activity className="h-5 w-5 text-primary" />
+                        <div className="p-1.5 rounded-lg bg-primary/5 text-primary group-hover:bg-primary/10 transition-colors">
+                            <Activity className="h-5 w-5" />
                         </div>
-                        <span className="text-lg font-bold tracking-tight">CivicFlow</span>
+                        <span className="text-xl font-heading font-extrabold tracking-tight text-foreground">CivicFlow</span>
                     </Link>
                 </div>
 
@@ -114,10 +114,10 @@ export default function DashboardLayout({
                                     key={item.href}
                                     href={item.href}
                                     className={cn(
-                                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors cursor-pointer",
+                                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors cursor-pointer",
                                         isActive
-                                            ? "bg-primary/10 text-primary border border-primary/20"
-                                            : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                                            ? "bg-primary/5 text-primary border border-border/50 font-bold shadow-sm"
+                                            : "text-muted-foreground font-medium hover:text-foreground hover:bg-muted"
                                     )}
                                 >
                                     <item.icon className="h-4.5 w-4.5" />
@@ -129,10 +129,10 @@ export default function DashboardLayout({
                 </nav>
 
                 {/* Bottom actions */}
-                <div className="p-3 border-t border-border/50 space-y-1">
+                <div className="p-3 border-t border-border space-y-1 bg-card">
                     <Link
                         href="/dashboard/settings"
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-colors cursor-pointer"
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors cursor-pointer"
                     >
                         <Settings className="h-4.5 w-4.5" />
                         Settings
@@ -148,10 +148,10 @@ export default function DashboardLayout({
             </aside>
 
             {/* Mobile Header */}
-            <div className="md:hidden fixed top-0 left-0 right-0 z-50 h-14 border-b border-border/50 bg-background/90 backdrop-blur-xl flex items-center justify-between px-4">
+            <div className="md:hidden fixed top-0 left-0 right-0 z-50 h-14 border-b border-border bg-card/90 backdrop-blur-xl flex items-center justify-between px-4">
                 <Link href="/dashboard" className="flex items-center gap-2">
                     <Activity className="h-5 w-5 text-primary" />
-                    <span className="font-bold">CivicFlow</span>
+                    <span className="font-heading font-extrabold text-foreground">CivicFlow</span>
                 </Link>
                 <Button variant="ghost" size="sm" onClick={handleSignOut} className="cursor-pointer">
                     <LogOut className="h-4 w-4" />
@@ -159,7 +159,7 @@ export default function DashboardLayout({
             </div>
 
             {/* Mobile Bottom Nav */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border/50 bg-background/90 backdrop-blur-xl">
+            <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card/90 backdrop-blur-xl">
                 <div className="grid grid-cols-5 gap-1 p-1">
                     {filteredNavItems.slice(0, 5).map((item) => {
                         const isActive = pathname === item.href ||
@@ -170,7 +170,7 @@ export default function DashboardLayout({
                                 href={item.href}
                                 className={cn(
                                     "flex flex-col items-center gap-0.5 py-2 rounded-lg text-xs font-medium transition-colors cursor-pointer",
-                                    isActive ? "text-primary" : "text-muted-foreground"
+                                    isActive ? "text-primary font-bold" : "text-muted-foreground"
                                 )}
                             >
                                 <item.icon className="h-4.5 w-4.5" />
@@ -182,7 +182,7 @@ export default function DashboardLayout({
             </div>
 
             {/* Main Content */}
-            <main className="flex-1 overflow-y-auto md:pt-0 pt-14 pb-20 md:pb-0">
+            <main className="flex-1 overflow-y-auto md:pt-0 pt-14 pb-20 md:pb-0 relative z-0">
                 <div className="p-4 sm:p-6 lg:p-8">{children}</div>
             </main>
         </div>

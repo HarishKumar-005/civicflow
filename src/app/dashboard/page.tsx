@@ -98,18 +98,18 @@ async function getDashboardData() {
 }
 
 const severityColors: Record<number, string> = {
-    1: "bg-green-500/10 text-green-400 border-green-500/20",
-    2: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    3: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
-    4: "bg-orange-500/10 text-orange-400 border-orange-500/20",
-    5: "bg-red-500/10 text-red-400 border-red-500/20",
+    1: "bg-green-500/10 text-green-600 border-green-500/20",
+    2: "bg-blue-500/10 text-blue-600 border-blue-500/20",
+    3: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20",
+    4: "bg-orange-500/10 text-orange-600 border-orange-500/20",
+    5: "bg-red-500/10 text-red-600 border-red-500/20",
 };
 
 const statusColors: Record<string, string> = {
-    new: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-    verified: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-    in_progress: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
-    resolved: "bg-green-500/10 text-green-400 border-green-500/20",
+    new: "bg-blue-500/10 text-blue-600 border-blue-500/20",
+    verified: "bg-purple-500/10 text-purple-600 border-purple-500/20",
+    in_progress: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20",
+    resolved: "bg-green-500/10 text-green-600 border-green-500/20",
     closed: "bg-muted text-muted-foreground border-border",
 };
 
@@ -120,27 +120,27 @@ export default async function DashboardPage() {
         return (
             <div className="space-y-8">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl font-heading font-extrabold tracking-tight text-primary">
                         Welcome back{profile?.full_name ? `, ${profile.full_name}` : ""}
                     </h1>
-                    <p className="text-muted-foreground mt-1">
+                    <p className="text-muted-foreground text-lg mt-2 font-medium">
                         Thank you for keeping your community safe.
                     </p>
                 </div>
-                <Card className="border-border/50 bg-card/50 max-w-2xl">
+                <Card className="border-border bg-card shadow-sm rounded-2xl max-w-2xl">
                     <CardHeader>
-                        <CardTitle className="text-xl">Your Reports</CardTitle>
+                        <CardTitle className="text-xl font-heading font-bold text-foreground">Your Reports</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <p className="text-muted-foreground text-sm">
+                        <p className="text-muted-foreground text-sm font-medium">
                             You can view the status of reports you have submitted or create a new one.
                         </p>
                         <div className="flex gap-4">
                             <Link href="/dashboard/reports">
-                                <Button variant="outline" className="cursor-pointer">View My Reports</Button>
+                                <Button variant="outline" className="cursor-pointer shadow-sm">View My Reports</Button>
                             </Link>
                             <Link href="/dashboard/reports/new">
-                                <Button className="cursor-pointer">Submit New Report</Button>
+                                <Button className="cursor-pointer shadow-sm">Submit New Report</Button>
                             </Link>
                         </div>
                     </CardContent>
@@ -153,39 +153,39 @@ export default async function DashboardPage() {
         return (
             <div className="space-y-8">
                 <div>
-                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                    <h1 className="text-3xl sm:text-4xl font-heading font-extrabold tracking-tight text-primary">
                         Welcome back{profile?.full_name ? `, ${profile.full_name}` : ""}
                     </h1>
-                    <p className="text-muted-foreground mt-1">
+                    <p className="text-muted-foreground text-lg mt-2 font-medium">
                         Here are your task assignments.
                     </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Card className="border-border/50 bg-card/50">
+                    <Card className="border-border bg-card shadow-sm rounded-2xl">
                         <CardHeader>
-                            <CardTitle className="text-lg">My Assignments</CardTitle>
+                            <CardTitle className="text-lg font-heading font-bold text-foreground">My Assignments</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-muted-foreground text-sm mb-4">
+                            <p className="text-muted-foreground text-sm mb-4 font-medium">
                                 View tasks assigned to you by the organizers.
                             </p>
                             <Link href="/dashboard/tasks">
-                                <Button className="w-full cursor-pointer">Go to Tasks</Button>
+                                <Button className="w-full cursor-pointer shadow-sm">Go to Tasks</Button>
                             </Link>
                         </CardContent>
                     </Card>
 
-                    <Card className="border-border/50 bg-card/50">
+                    <Card className="border-border bg-card shadow-sm rounded-2xl">
                         <CardHeader>
-                            <CardTitle className="text-lg">My Profile</CardTitle>
+                            <CardTitle className="text-lg font-heading font-bold text-foreground">My Profile</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-muted-foreground text-sm mb-4">
+                            <p className="text-muted-foreground text-sm mb-4 font-medium">
                                 Update your skills and location so we can match you perfectly.
                             </p>
                             <Link href="/dashboard/volunteers/profile">
-                                <Button variant="outline" className="w-full cursor-pointer">Edit Profile</Button>
+                                <Button variant="outline" className="w-full cursor-pointer shadow-sm">Edit Profile</Button>
                             </Link>
                         </CardContent>
                     </Card>
@@ -201,21 +201,24 @@ export default async function DashboardPage() {
             value: stats.totalReports,
             icon: FileText,
             description: `${stats.newReports} new`,
-            color: "text-blue-400",
+            color: "text-blue-600",
+            bg: "bg-blue-500/10",
         },
         {
             title: "Urgent Needs",
             value: urgentReports.length,
             icon: AlertTriangle,
             description: "Severity 4-5",
-            color: "text-orange-400",
+            color: "text-orange-600",
+            bg: "bg-orange-500/10",
         },
         {
             title: "Open Tasks",
             value: stats.openTasks,
             icon: ClipboardList,
             description: `${stats.completedTasks} completed`,
-            color: "text-yellow-400",
+            color: "text-yellow-600",
+            bg: "bg-yellow-500/10",
         },
         {
             title: "Volunteers",
@@ -223,6 +226,7 @@ export default async function DashboardPage() {
             icon: Users,
             description: "Registered",
             color: "text-primary",
+            bg: "bg-primary/10",
         },
     ];
 
@@ -230,10 +234,10 @@ export default async function DashboardPage() {
         <div className="space-y-8">
             {/* Header */}
             <div>
-                <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                <h1 className="text-3xl sm:text-4xl font-heading font-extrabold tracking-tight text-primary">
                     Welcome back{profile?.full_name ? `, ${profile.full_name}` : ""}
                 </h1>
-                <p className="text-muted-foreground mt-1">
+                <p className="text-muted-foreground text-lg mt-2 font-medium">
                     Here&apos;s what&apos;s happening in your operations today.
                 </p>
             </div>
@@ -241,14 +245,19 @@ export default async function DashboardPage() {
             {/* KPI Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {kpiCards.map((card, i) => (
-                    <Card key={i} className="border-border/50 bg-card/50">
-                        <CardContent className="p-5">
-                            <div className="flex items-center justify-between mb-3">
-                                <p className="text-sm font-medium text-muted-foreground">{card.title}</p>
-                                <card.icon className={`h-5 w-5 ${card.color}`} />
+                    <Card key={i} className="border-border bg-card shadow-sm rounded-2xl relative overflow-hidden">
+                        <div className={`absolute top-0 right-0 p-6 ${card.color} opacity-10 blur-xl pointer-events-none`}>
+                            <card.icon className="h-16 w-16" />
+                        </div>
+                        <CardContent className="p-6 relative">
+                            <div className="flex items-center justify-between mb-4">
+                                <p className="text-sm font-bold text-muted-foreground">{card.title}</p>
+                                <div className={`p-2 rounded-lg ${card.bg} ${card.color}`}>
+                                    <card.icon className="h-5 w-5" />
+                                </div>
                             </div>
-                            <div className="text-3xl font-bold">{card.value}</div>
-                            <p className="text-xs text-muted-foreground mt-1">{card.description}</p>
+                            <div className="text-4xl font-heading font-extrabold text-foreground">{card.value}</div>
+                            <p className="text-xs font-semibold text-muted-foreground mt-2">{card.description}</p>
                         </CardContent>
                     </Card>
                 ))}
@@ -256,23 +265,23 @@ export default async function DashboardPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Urgent Needs */}
-                <Card className="border-border/50 bg-card/50">
-                    <CardHeader className="flex flex-row items-center justify-between pb-3">
-                        <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                            <AlertTriangle className="h-5 w-5 text-orange-400" />
+                <Card className="border-border bg-card shadow-sm rounded-2xl">
+                    <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-border/50">
+                        <CardTitle className="text-lg font-heading font-bold flex items-center gap-2 text-foreground">
+                            <AlertTriangle className="h-5 w-5 text-orange-500" />
                             Urgent Needs
                         </CardTitle>
                         <Link href="/dashboard/reports?severity=4">
-                            <Button variant="ghost" size="sm" className="cursor-pointer text-xs">
+                            <Button variant="ghost" size="sm" className="cursor-pointer text-xs font-bold text-primary">
                                 View All
                             </Button>
                         </Link>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="pt-4">
                         {urgentReports.length === 0 ? (
                             <div className="text-center py-8 text-muted-foreground">
-                                <CheckCircle2 className="h-8 w-8 mx-auto mb-2 text-primary/50" />
-                                <p className="text-sm">No urgent reports right now</p>
+                                <CheckCircle2 className="h-8 w-8 mx-auto mb-2 text-primary/30" />
+                                <p className="text-sm font-medium">No urgent reports right now</p>
                             </div>
                         ) : (
                             <div className="space-y-3">
@@ -280,20 +289,20 @@ export default async function DashboardPage() {
                                     <Link
                                         key={report.id}
                                         href={`/dashboard/reports/${report.id}`}
-                                        className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent/30 transition-colors cursor-pointer group"
+                                        className="flex items-start gap-4 p-3 rounded-xl border border-transparent hover:border-border/50 hover:bg-muted/50 transition-colors cursor-pointer group"
                                     >
-                                        <div className="mt-0.5">
-                                            <MapPin className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                                        <div className="mt-0.5 p-2 bg-primary/5 rounded-lg text-primary group-hover:bg-primary/10 transition-colors">
+                                            <MapPin className="h-4 w-4" />
                                         </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-medium truncate">{report.title}</p>
-                                            <p className="text-xs text-muted-foreground truncate mt-0.5">
+                                        <div className="flex-1 min-w-0 pt-0.5">
+                                            <p className="text-sm font-bold text-foreground truncate">{report.title}</p>
+                                            <p className="text-xs font-medium text-muted-foreground truncate mt-0.5">
                                                 {report.address || "No address"} · {report.category}
                                             </p>
                                         </div>
                                         <Badge
                                             variant="outline"
-                                            className={`text-xs shrink-0 ${severityColors[report.severity]}`}
+                                            className={`text-xs shrink-0 font-bold ${severityColors[report.severity]}`}
                                         >
                                             Sev {report.severity}
                                         </Badge>
@@ -305,25 +314,25 @@ export default async function DashboardPage() {
                 </Card>
 
                 {/* Recent Reports */}
-                <Card className="border-border/50 bg-card/50">
-                    <CardHeader className="flex flex-row items-center justify-between pb-3">
-                        <CardTitle className="text-lg font-semibold flex items-center gap-2">
-                            <Clock className="h-5 w-5 text-blue-400" />
+                <Card className="border-border bg-card shadow-sm rounded-2xl">
+                    <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-border/50">
+                        <CardTitle className="text-lg font-heading font-bold flex items-center gap-2 text-foreground">
+                            <Clock className="h-5 w-5 text-blue-500" />
                             Recent Reports
                         </CardTitle>
                         <Link href="/dashboard/reports">
-                            <Button variant="ghost" size="sm" className="cursor-pointer text-xs">
+                            <Button variant="ghost" size="sm" className="cursor-pointer text-xs font-bold text-primary">
                                 View All
                             </Button>
                         </Link>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="pt-4">
                         {recentReports.length === 0 ? (
                             <div className="text-center py-8 text-muted-foreground">
-                                <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground/50" />
-                                <p className="text-sm">No reports yet</p>
+                                <FileText className="h-8 w-8 mx-auto mb-2 text-muted-foreground/30" />
+                                <p className="text-sm font-medium">No reports yet</p>
                                 <Link href="/dashboard/reports/new">
-                                    <Button size="sm" className="mt-3 cursor-pointer">
+                                    <Button size="sm" className="mt-3 cursor-pointer shadow-sm">
                                         Submit First Report
                                     </Button>
                                 </Link>
@@ -334,20 +343,20 @@ export default async function DashboardPage() {
                                     <Link
                                         key={report.id}
                                         href={`/dashboard/reports/${report.id}`}
-                                        className="flex items-start gap-3 p-3 rounded-lg hover:bg-accent/30 transition-colors cursor-pointer group"
+                                        className="flex items-start gap-4 p-3 rounded-xl border border-transparent hover:border-border/50 hover:bg-muted/50 transition-colors cursor-pointer group"
                                     >
-                                        <div className="mt-0.5">
-                                            <TrendingUp className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+                                        <div className="mt-0.5 p-2 bg-primary/5 rounded-lg text-primary group-hover:bg-primary/10 transition-colors">
+                                            <TrendingUp className="h-4 w-4" />
                                         </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-medium truncate">{report.title}</p>
-                                            <p className="text-xs text-muted-foreground mt-0.5">
+                                        <div className="flex-1 min-w-0 pt-0.5">
+                                            <p className="text-sm font-bold text-foreground truncate">{report.title}</p>
+                                            <p className="text-xs font-medium text-muted-foreground mt-0.5">
                                                 {new Date(report.created_at).toLocaleDateString()} · {report.category}
                                             </p>
                                         </div>
                                         <Badge
                                             variant="outline"
-                                            className={`text-xs shrink-0 ${statusColors[report.status]}`}
+                                            className={`text-xs shrink-0 font-bold ${statusColors[report.status]}`}
                                         >
                                             {report.status.replace("_", " ")}
                                         </Badge>
