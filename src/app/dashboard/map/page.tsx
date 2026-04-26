@@ -103,7 +103,7 @@ export default function MapPage() {
                 </div>
             </div>
 
-            <Card className="border-border/50 bg-card/50 overflow-hidden">
+            <Card className="overflow-hidden">
                 <CardContent className="p-0">
                     <div className="h-[65vh] w-full">
                         <link
@@ -114,12 +114,11 @@ export default function MapPage() {
                         <MapContainer
                             center={center}
                             zoom={geoReports.length > 0 ? 12 : 5}
-                            className="h-full w-full"
-                            style={{ background: "#0a0a0a" }}
+                            className="h-full w-full bg-slate-50"
                         >
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
-                                url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                             />
                             {geoReports.map((report) => (
                                 <CircleMarker
@@ -135,10 +134,10 @@ export default function MapPage() {
                                 >
                                     <Popup>
                                         <div className="text-xs space-y-1 min-w-[200px]">
-                                            <p className="font-semibold text-sm">{report.title}</p>
-                                            <p className="text-gray-600">{report.category} · Severity {report.severity}</p>
-                                            <p className="text-gray-500">{report.address || "No address"}</p>
-                                            <p className="text-gray-400">Status: {report.status}</p>
+                                            <p className="font-heading font-bold text-sm text-foreground">{report.title}</p>
+                                            <p className="font-medium text-muted-foreground">{report.category} · Severity {report.severity}</p>
+                                            <p className="font-medium text-muted-foreground/70">{report.address || "No address"}</p>
+                                            <p className="font-bold text-primary">Status: {report.status}</p>
                                         </div>
                                     </Popup>
                                 </CircleMarker>
@@ -149,7 +148,7 @@ export default function MapPage() {
             </Card>
 
             {geoReports.length === 0 && (
-                <Card className="border-border/50 bg-card/50">
+                <Card>
                     <CardContent className="flex flex-col items-center justify-center py-12">
                         <MapPin className="h-10 w-10 text-muted-foreground/30 mb-3" />
                         <h3 className="text-lg font-semibold mb-1">No geolocated reports</h3>
