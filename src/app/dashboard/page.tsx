@@ -82,6 +82,7 @@ async function getDashboardData() {
 
     return {
         profile,
+        role: profile?.role || "reporter",
         stats: {
             totalReports: totalReports ?? 0,
             newReports: newReports ?? 0,
@@ -113,8 +114,87 @@ const statusColors: Record<string, string> = {
 };
 
 export default async function DashboardPage() {
-    const { profile, stats, urgentReports, recentReports } = await getDashboardData();
+    const { profile, role, stats, urgentReports, recentReports } = await getDashboardData();
 
+    if (role === "reporter") {
+        return (
+            <div className="space-y-8">
+                <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                        Welcome back{profile?.full_name ? `, ${profile.full_name}` : ""}
+                    </h1>
+                    <p className="text-muted-foreground mt-1">
+                        Thank you for keeping your community safe.
+                    </p>
+                </div>
+                <Card className="border-border/50 bg-card/50 max-w-2xl">
+                    <CardHeader>
+                        <CardTitle className="text-xl">Your Reports</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <p className="text-muted-foreground text-sm">
+                            You can view the status of reports you have submitted or create a new one.
+                        </p>
+                        <div className="flex gap-4">
+                            <Link href="/dashboard/reports">
+                                <Button variant="outline" className="cursor-pointer">View My Reports</Button>
+                            </Link>
+                            <Link href="/dashboard/reports/new">
+                                <Button className="cursor-pointer">Submit New Report</Button>
+                            </Link>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
+    if (role === "volunteer") {
+        return (
+            <div className="space-y-8">
+                <div>
+                    <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                        Welcome back{profile?.full_name ? `, ${profile.full_name}` : ""}
+                    </h1>
+                    <p className="text-muted-foreground mt-1">
+                        Here are your task assignments.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Card className="border-border/50 bg-card/50">
+                        <CardHeader>
+                            <CardTitle className="text-lg">My Assignments</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground text-sm mb-4">
+                                View tasks assigned to you by the organizers.
+                            </p>
+                            <Link href="/dashboard/tasks">
+                                <Button className="w-full cursor-pointer">Go to Tasks</Button>
+                            </Link>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="border-border/50 bg-card/50">
+                        <CardHeader>
+                            <CardTitle className="text-lg">My Profile</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground text-sm mb-4">
+                                Update your skills and location so we can match you perfectly.
+                            </p>
+                            <Link href="/dashboard/volunteers/profile">
+                                <Button variant="outline" className="w-full cursor-pointer">Edit Profile</Button>
+                            </Link>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        );
+    }
+
+    // Default: Organizer & Admin View
     const kpiCards = [
         {
             title: "Total Reports",

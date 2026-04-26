@@ -58,5 +58,41 @@ export async function updateSession(request: NextRequest) {
         return NextResponse.redirect(url);
     }
 
+    // Role-Based Route Guards
+    if (user && request.nextUrl.pathname.startsWith("/dashboard")) {
+        // We must fetch the user role from 'users' table
+        const { data: profile } = await supabase.from("users").select("role").eq("id", user.id).single();
+        const role = profile?.role || "reporter";
+
+        // Organizers have full access, so we only restrict others
+        if (role !== "organizer" && role !== "admin") {
+            const path = request.nextUrl.pathname;
+
+            // Block from Analytics
+            if (path.startsWith("/dashboard/analytics")) {
+                const url = request.nextUrl.clone();
+                url.pathname = "/dashboard";
+                return NextResponse.redirect(url);
+            }
+
+            // Reporters shouldn't see tasks, volunteers, or the map
+            if (role === "reporter" && (path.startsWith("/dashboard/tasks") || path.startsWith("/dashboard/volunteers") || path.startsWith("/dashboard/map"))) {
+                const url = request.nextUrl.clone();
+                url.pathname = "/dashboard/reports";
+                return NextResponse.redirect(url);
+            }
+
+            // Volunteers shouldn't see global volunteers list or global reports list
+            if (role === "volunteer" && (path === "/dashboard/volunteers" || path === "/dashboard/reports")) {
+                // They can access /dashboard/volunteers/profile specifically, but not the root list
+                if (path === "/dashboard/volunteers") {
+                    const url = request.nextUrl.clone();
+                    url.pathname = "/dashboard/volunteers/profile";
+                    return NextResponse.redirect(url);
+                }
+            }
+        }
+    }
+
     return supabaseResponse;
 }

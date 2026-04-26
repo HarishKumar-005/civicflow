@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState, useMemo } from "react";
 import {
     Activity,
     BarChart3,
@@ -17,8 +18,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const navItems = [
+const baseNavItems = [
     { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { href: "/dashboard/reports", label: "Reports", icon: FileText },
     { href: "/dashboard/tasks", label: "Tasks", icon: ClipboardList },
@@ -35,6 +37,38 @@ export default function DashboardLayout({
     const pathname = usePathname();
     const router = useRouter();
     const supabase = createClient();
+    const [role, setRole] = useState<string | null>(null);
+
+    useEffect(() => {
+        async function fetchRole() {
+            const { data: { user } } = await supabase.auth.getUser();
+            if (user) {
+                const { data } = await supabase.from('users').select('role').eq('id', user.id).single();
+                if (data) setRole(data.role);
+            }
+        }
+        fetchRole();
+    }, [supabase]);
+
+    const filteredNavItems = useMemo(() => {
+        if (!role) return [];
+        if (role === "organizer" || role === "admin") return baseNavItems;
+        if (role === "volunteer") {
+            return [
+                { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+                { href: "/dashboard/tasks", label: "My Tasks", icon: ClipboardList },
+                { href: "/dashboard/volunteers/profile", label: "My Profile", icon: Users },
+                { href: "/dashboard/map", label: "Map View", icon: Map },
+            ];
+        }
+        if (role === "reporter") {
+            return [
+                { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+                { href: "/dashboard/reports", label: "My Reports", icon: FileText },
+            ];
+        }
+        return [];
+    }, [role]);
 
     async function handleSignOut() {
         await supabase.auth.signOut();
@@ -59,25 +93,33 @@ export default function DashboardLayout({
 
                 {/* Navigation */}
                 <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-                    {navItems.map((item) => {
-                        const isActive = pathname === item.href ||
-                            (item.href !== "/dashboard" && pathname.startsWith(item.href));
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={cn(
-                                    "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors cursor-pointer",
-                                    isActive
-                                        ? "bg-primary/10 text-primary border border-primary/20"
-                                        : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
-                                )}
-                            >
-                                <item.icon className="h-4.5 w-4.5" />
-                                {item.label}
-                            </Link>
-                        );
-                    })}
+                    {!role ? (
+                        <div className="space-y-2 p-2">
+                            <Skeleton className="h-10 w-full" />
+                            <Skeleton className="h-10 w-full" />
+                            <Skeleton className="h-10 w-full" />
+                        </div>
+                    ) : (
+                        filteredNavItems.map((item) => {
+                            const isActive = pathname === item.href ||
+                                (item.href !== "/dashboard" && pathname.startsWith(item.href) && item.href !== "/dashboard/volunteers/profile");
+                            return (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    className={cn(
+                                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors cursor-pointer",
+                                        isActive
+                                            ? "bg-primary/10 text-primary border border-primary/20"
+                                            : "text-muted-foreground hover:text-foreground hover:bg-accent/50"
+                                    )}
+                                >
+                                    <item.icon className="h-4.5 w-4.5" />
+                                    {item.label}
+                                </Link>
+                            );
+                        })
+                    )}
                 </nav>
 
                 {/* Bottom actions */}
@@ -113,7 +155,7 @@ export default function DashboardLayout({
             {/* Mobile Bottom Nav */}
             <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border/50 bg-background/90 backdrop-blur-xl">
                 <div className="grid grid-cols-5 gap-1 p-1">
-                    {navItems.slice(0, 5).map((item) => {
+                    {filteredNavItems.slice(0, 5).map((item) => {
                         const isActive = pathname === item.href ||
                             (item.href !== "/dashboard" && pathname.startsWith(item.href));
                         return (
