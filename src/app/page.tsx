@@ -117,7 +117,7 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat, i) => (
-              <div key={i} className="bg-card rounded-2xl p-6 border border-border shadow-sm text-center flex flex-col items-center justify-center">
+              <div key={i} className="bg-card rounded-3xl p-6 border-none shadow-xl shadow-primary/10 text-center flex flex-col items-center justify-center transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
                 <div className="p-3 bg-primary/5 rounded-full mb-3 text-primary">
                   <stat.icon className="h-6 w-6" />
                 </div>
@@ -148,7 +148,7 @@ export default function LandingPage() {
             {features.map((feature, i) => (
               <div
                 key={i}
-                className={`${feature.span} group bg-card rounded-3xl p-8 border border-border shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer flex flex-col justify-between`}
+                className={`${feature.span} group bg-card rounded-3xl p-8 border-none shadow-xl shadow-primary/10 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 cursor-pointer flex flex-col justify-between`}
               >
                 <div className="p-3 rounded-xl bg-primary/5 text-primary w-fit group-hover:bg-primary/10 transition-colors">
                   <feature.icon className="h-6 w-6" />
@@ -181,7 +181,7 @@ export default function LandingPage() {
               { step: "03", title: "Prioritize", desc: "Transparent scoring ranks needs by severity and impact" },
               { step: "04", title: "Deploy", desc: "Match and assign the best-fit volunteer for every task" },
             ].map((item, i) => (
-              <div key={i} className="text-center p-6 bg-background rounded-2xl border border-border/50 shadow-sm relative overflow-hidden">
+              <div key={i} className="text-center p-6 bg-card rounded-3xl border-none shadow-xl shadow-primary/10 relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
                 <div className="absolute top-0 right-0 p-4 text-7xl font-heading font-extrabold text-primary/5 -z-10 select-none">
                   {item.step}
                 </div>

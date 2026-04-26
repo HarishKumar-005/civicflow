@@ -127,7 +127,7 @@ export default async function DashboardPage() {
                         Thank you for keeping your community safe.
                     </p>
                 </div>
-                <Card className="border-border bg-card shadow-sm rounded-2xl max-w-2xl">
+                <Card className="max-w-2xl">
                     <CardHeader>
                         <CardTitle className="text-xl font-heading font-bold text-foreground">Your Reports</CardTitle>
                     </CardHeader>
@@ -162,7 +162,7 @@ export default async function DashboardPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <Card className="border-border bg-card shadow-sm rounded-2xl">
+                    <Card>
                         <CardHeader>
                             <CardTitle className="text-lg font-heading font-bold text-foreground">My Assignments</CardTitle>
                         </CardHeader>
@@ -176,7 +176,7 @@ export default async function DashboardPage() {
                         </CardContent>
                     </Card>
 
-                    <Card className="border-border bg-card shadow-sm rounded-2xl">
+                    <Card>
                         <CardHeader>
                             <CardTitle className="text-lg font-heading font-bold text-foreground">My Profile</CardTitle>
                         </CardHeader>
@@ -245,7 +245,7 @@ export default async function DashboardPage() {
             {/* KPI Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {kpiCards.map((card, i) => (
-                    <Card key={i} className="border-border bg-card shadow-sm rounded-2xl relative overflow-hidden">
+                    <Card key={i} className="relative overflow-hidden">
                         <div className={`absolute top-0 right-0 p-6 ${card.color} opacity-10 blur-xl pointer-events-none`}>
                             <card.icon className="h-16 w-16" />
                         </div>
@@ -265,7 +265,7 @@ export default async function DashboardPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Urgent Needs */}
-                <Card className="border-border bg-card shadow-sm rounded-2xl">
+                <Card>
                     <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-border/50">
                         <CardTitle className="text-lg font-heading font-bold flex items-center gap-2 text-foreground">
                             <AlertTriangle className="h-5 w-5 text-orange-500" />
@@ -289,7 +289,7 @@ export default async function DashboardPage() {
                                     <Link
                                         key={report.id}
                                         href={`/dashboard/reports/${report.id}`}
-                                        className="flex items-start gap-4 p-3 rounded-xl border border-transparent hover:border-border/50 hover:bg-muted/50 transition-colors cursor-pointer group"
+                                        className="flex items-start gap-4 p-3 rounded-2xl border border-transparent hover:shadow-md hover:bg-primary/5 transition-all cursor-pointer group"
                                     >
                                         <div className="mt-0.5 p-2 bg-primary/5 rounded-lg text-primary group-hover:bg-primary/10 transition-colors">
                                             <MapPin className="h-4 w-4" />
@@ -314,7 +314,7 @@ export default async function DashboardPage() {
                 </Card>
 
                 {/* Recent Reports */}
-                <Card className="border-border bg-card shadow-sm rounded-2xl">
+                <Card>
                     <CardHeader className="flex flex-row items-center justify-between pb-3 border-b border-border/50">
                         <CardTitle className="text-lg font-heading font-bold flex items-center gap-2 text-foreground">
                             <Clock className="h-5 w-5 text-blue-500" />
@@ -343,7 +343,7 @@ export default async function DashboardPage() {
                                     <Link
                                         key={report.id}
                                         href={`/dashboard/reports/${report.id}`}
-                                        className="flex items-start gap-4 p-3 rounded-xl border border-transparent hover:border-border/50 hover:bg-muted/50 transition-colors cursor-pointer group"
+                                        className="flex items-start gap-4 p-3 rounded-2xl border border-transparent hover:shadow-md hover:bg-primary/5 transition-all cursor-pointer group"
                                     >
                                         <div className="mt-0.5 p-2 bg-primary/5 rounded-lg text-primary group-hover:bg-primary/10 transition-colors">
                                             <TrendingUp className="h-4 w-4" />
