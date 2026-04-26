@@ -44,7 +44,13 @@ export default function DashboardLayout({
             const { data: { user } } = await supabase.auth.getUser();
             if (user) {
                 const { data } = await supabase.from('users').select('role').eq('id', user.id).single();
-                if (data) setRole(data.role);
+                if (data?.role) {
+                    setRole(data.role);
+                } else if (user.user_metadata?.role) {
+                    setRole(user.user_metadata.role);
+                } else {
+                    setRole("reporter");
+                }
             }
         }
         fetchRole();

@@ -16,7 +16,7 @@ export default function SignupPage() {
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [role, setRole] = useState<string>("reporter");
+    const [role, setRole] = useState("reporter");
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const supabase = createClient();
@@ -109,7 +109,7 @@ export default function SignupPage() {
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="role">I am a</Label>
-                                <Select value={role} onValueChange={(v) => v && setRole(v)}>
+                                <Select defaultValue="reporter" value={role} onValueChange={(v) => v && setRole(v)}>
                                     <SelectTrigger id="role" className="cursor-pointer">
                                         <SelectValue placeholder="Select your role" />
                                     </SelectTrigger>
