@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, MapPin, Calendar, Users, AlertTriangle, Shield } from "lucide-react";
 import { CATEGORY_LABELS, SEVERITY_LABELS, URGENCY_LABELS } from "@/lib/types/database";
+import { ReportActionButtons } from "@/components/organizer/ReportActionButtons";
 
 const severityColors: Record<number, string> = {
     1: "bg-green-500/10 text-green-400 border-green-500/20",
@@ -44,26 +45,31 @@ export default async function ReportDetailPage({
     return (
         <div className="max-w-3xl mx-auto space-y-6">
             {/* Header */}
-            <div className="flex items-start gap-3">
-                <Link href="/dashboard/reports">
-                    <Button variant="ghost" size="icon" className="cursor-pointer mt-0.5">
-                        <ArrowLeft className="h-4 w-4" />
-                    </Button>
-                </Link>
-                <div className="flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                        <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
-                            {report.title}
-                        </h1>
-                        <Badge variant="outline" className={statusColors[report.status]}>
-                            {report.status.replace("_", " ")}
-                        </Badge>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div className="flex items-start gap-3">
+                    <Link href="/dashboard/reports">
+                        <Button variant="ghost" size="icon" className="cursor-pointer mt-0.5">
+                            <ArrowLeft className="h-4 w-4" />
+                        </Button>
+                    </Link>
+                    <div className="flex-1">
+                        <div className="flex items-center gap-2 flex-wrap">
+                            <h1 className="text-xl sm:text-2xl font-bold tracking-tight">
+                                {report.title}
+                            </h1>
+                            <Badge variant="outline" className={statusColors[report.status]}>
+                                {report.status.replace("_", " ")}
+                            </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground mt-1">
+                            Submitted {new Date(report.created_at).toLocaleDateString()} at{" "}
+                            {new Date(report.created_at).toLocaleTimeString()}
+                        </p>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1">
-                        Submitted {new Date(report.created_at).toLocaleDateString()} at{" "}
-                        {new Date(report.created_at).toLocaleTimeString()}
-                    </p>
                 </div>
+
+                {/* Manual Assignment / Task Creation */}
+                <ReportActionButtons report={report as any} />
             </div>
 
             {/* Key Metrics */}
