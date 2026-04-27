@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { extractReportFields } from "@/lib/ai/gemini";
+import { extractReportFields, extractReportFromImage } from "@/lib/ai";
 import { createClient } from "@/utils/supabase/server";
 
 export async function POST(request: NextRequest) {
@@ -12,16 +12,24 @@ export async function POST(request: NextRequest) {
         }
 
         const body = await request.json();
-        const { rawText } = body;
+        const { rawText, imageBase64 } = body;
 
-        if (!rawText || typeof rawText !== "string" || rawText.trim().length === 0) {
+        // Either rawText or an image is required
+        if ((!rawText || rawText.trim().length === 0) && !imageBase64) {
             return NextResponse.json(
-                { error: "rawText is required and must be non-empty" },
+                { error: "Either text description or an image is required" },
                 { status: 400 }
             );
         }
 
-        const extracted = await extractReportFields(rawText);
+        let extracted;
+        if (imageBase64 && typeof imageBase64 === "string") {
+            // User uploaded a photo -> Vision AI
+            extracted = await extractReportFromImage(rawText || "", imageBase64);
+        } else {
+            // Text-only -> Standard AI
+            extracted = await extractReportFields(rawText);
+        }
 
         return NextResponse.json({ data: extracted });
     } catch (error) {
