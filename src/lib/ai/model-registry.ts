@@ -9,57 +9,50 @@ import type { AITask } from "./types";
 /**
  * Default model chains per task.
  * OpenRouter tries each model in order — if the first is unavailable or
- * rate-limited it automatically falls through to the next.
+ * rate-limited it freematically falls through to the next.
  *
- * "openrouter/auto" is the catch-all router that picks the best available
+ * "openrouter/free" is the catch-all router that picks the best available
  * free model at request time.  It is NOT a deterministic primary — always
  * put a specific model first.
  */
 const DEFAULT_MODEL_CHAINS: Record<AITask, string[]> = {
     report_extraction: [
-        "google/gemma-4-26b-a4b-it:free",
-        "deepseek/deepseek-chat-v3-0324:free",
-        "meta-llama/llama-3.3-70b-instruct:free",
+
         "google/gemma-3-27b-it:free",
         "meta-llama/llama-3.2-3b-instruct:free",
-        "openrouter/free",
+        "google/gemini-2.5-flash",
+        "openrouter/free"
     ],
     report_vision_extraction: [
-        "google/gemini-2.5-flash", // Top-tier fast vision
-        "openai/gpt-4o-mini",      // Fallback fast vision
-        "openrouter/auto",         // Router fallback
+        "google/gemini-2.5-flash",
+        "openai/gpt-4o-mini",
+        "openrouter/free",
     ],
     report_classification: [
-        "google/gemma-4-26b-a4b-it:free",
-        "deepseek/deepseek-chat-v3-0324:free",
-        "meta-llama/llama-3.3-70b-instruct:free",
         "google/gemma-3-27b-it:free",
+        "google/gemini-2.5-flash",
         "meta-llama/llama-3.2-3b-instruct:free",
-        "openrouter/free",
+        "openrouter/free"
     ],
     report_summarization: [
-        "google/gemma-4-26b-a4b-it:free",
-        "deepseek/deepseek-chat-v3-0324:free",
-        "meta-llama/llama-3.3-70b-instruct:free",
         "google/gemma-3-27b-it:free",
+        "google/gemini-2.5-flash",
         "meta-llama/llama-3.2-3b-instruct:free",
-        "openrouter/free",
+        "openrouter/free"
     ],
     duplicate_detection: [
-        "google/gemma-4-26b-a4b-it:free",
-        "deepseek/deepseek-chat-v3-0324:free",
-        "meta-llama/llama-3.3-70b-instruct:free",
         "google/gemma-3-27b-it:free",
+        "google/gemini-2.5-flash",
+
         "meta-llama/llama-3.2-3b-instruct:free",
-        "openrouter/free",
+        "openrouter/free"
     ],
     match_explanation: [
-        "google/gemma-4-26b-a4b-it:free",
-        "deepseek/deepseek-chat-v3-0324:free",
-        "meta-llama/llama-3.3-70b-instruct:free",
         "google/gemma-3-27b-it:free",
+        "google/gemini-2.5-flash",
+
         "meta-llama/llama-3.2-3b-instruct:free",
-        "openrouter/free",
+        "openrouter/free"
     ],
 };
 
