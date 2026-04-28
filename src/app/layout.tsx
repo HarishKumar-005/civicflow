@@ -3,6 +3,8 @@ import { Nunito_Sans, Varela_Round, JetBrains_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
+export const dynamic = "force-dynamic";
+
 const nunitoSans = Nunito_Sans({
   variable: "--font-sans",
   subsets: ["latin"],
