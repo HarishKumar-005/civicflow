@@ -25,10 +25,9 @@ COPY . .
 # NEXT_PUBLIC_* vars must be available at build time
 # because Next.js inlines them into the client JS bundle.
 # These are PUBLIC values (not secrets) — safe to bake in.
-ARG NEXT_PUBLIC_SUPABASE_URL
-ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
-ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
-ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+# Supabase anon keys are designed to be public (RLS enforces security).
+ENV NEXT_PUBLIC_SUPABASE_URL=https://dsryrmlweyhltqhijmij.supabase.co
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable__PLKhhnIlq3p3iIQR6nLSQ_NNFh6Zjd
 
 # Run the production build.
 # This respects next.config.ts `output: 'standalone'`
