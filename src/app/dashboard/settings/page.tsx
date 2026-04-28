@@ -55,7 +55,7 @@ export default async function SettingsPage() {
                 <CardContent>
                     <p className="text-sm text-muted-foreground">
                         CivicFlow transforms fragmented community-needs data into prioritized intelligence
-                        and matches volunteers to the highest-impact tasks. Built for the GDG Solution Challenge.
+                        and matches volunteers to the highest-impact tasks.
                     </p>
                 </CardContent>
             </Card>
