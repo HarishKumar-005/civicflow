@@ -201,7 +201,7 @@ export default function LandingPage() {
             <span className="text-base font-heading font-bold">CivicFlow</span>
           </div>
           <p className="text-sm font-medium text-muted-foreground">
-            Built for the GDG Solution Challenge 2025.
+            Built for Impact • Powered by Intelligence.
           </p>
         </div>
       </footer>
