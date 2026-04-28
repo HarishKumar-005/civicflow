@@ -1,0 +1,21 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_SUPABASE_URL=${_NEXT_PUBLIC_SUPABASE_URL}'
+      - '--build-arg'
+      - 'NEXT_PUBLIC_SUPABASE_ANON_KEY=${_NEXT_PUBLIC_SUPABASE_ANON_KEY}'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/civicflow:$COMMIT_SHA'
+      - '-t'
+      - 'gcr.io/$PROJECT_ID/civicflow:latest'
+      - '.'
+
+images:
+  - 'gcr.io/$PROJECT_ID/civicflow:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/civicflow:latest'
+
+substitutions:
+  _NEXT_PUBLIC_SUPABASE_URL: 'https://dsryrmlweyhltqhijmij.supabase.co'
+  _NEXT_PUBLIC_SUPABASE_ANON_KEY: 'sb_publishable__PLKhhnIlq3p3iIQR6nLSQ_NNFh6Zjd'

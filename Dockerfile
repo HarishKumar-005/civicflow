@@ -22,6 +22,14 @@ COPY --from=deps /app/node_modules ./node_modules
 # Copy all source files
 COPY . .
 
+# NEXT_PUBLIC_* vars must be available at build time
+# because Next.js inlines them into the client JS bundle.
+# These are PUBLIC values (not secrets) — safe to bake in.
+ARG NEXT_PUBLIC_SUPABASE_URL
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
+ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL
+ENV NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY
+
 # Run the production build.
 # This respects next.config.ts `output: 'standalone'`
 RUN npm run build

@@ -6,12 +6,14 @@ README.md
 .next
 .git
 .github
-*.env
-*.env.*
-!.env.example
+.env.local
+.env.development
+.env*.local
+!.env.production
 .vercel
 *.pem
 .DS_Store
 *.log
 coverage
 tmp
+cloudbuild.yaml
